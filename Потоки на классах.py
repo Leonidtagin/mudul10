@@ -2,8 +2,6 @@ from threading import Thread
 from time import sleep
 
 class Knight(Thread):
-    сount_of_enemy = 100
-    count_of_days = 0
 
     def __init__(self, name, power):
         super().__init__()
@@ -12,12 +10,12 @@ class Knight(Thread):
 
     def run(self):
         print(f'{self.name}, на нас напали!')
-        while self.count_of_enemy > 0:
-            self.count_of_enemy = self.count_of_enemy - self.power
-            self.count_of_days += 1
-            sleep(1)
-            print(f'{self.name} сражается {self.count_of_days} дней,  осталось{self.count_of_enemy} воинов.\n')
-        print(f'{self.name} одержал победу спустя {self.count_of_days} дней!')
+        enemies = 100
+        days = 0
+        while enemies > 0:
+            enemies -= 1
+            print(f'{self.name} сражается {days} дней,  осталось{enemies} воинов.\n')
+        print(f'{self.name} одержал победу спустя {days} дней!')
 first_knight = Knight('Sir Lancelot', 10)
 second_knight = Knight('Sir Galahad', 20)
 
