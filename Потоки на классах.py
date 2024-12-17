@@ -7,21 +7,27 @@ class Knight(Thread):
         super().__init__()
         self.name = name
         self.power = power
+        self.enemies_left = 100
+        self.days = 0
+
 
     def run(self):
         print(f'{self.name}, на нас напали!')
-        enemies = 100
-        days = 0
-        while enemies > 0:
-            enemies -= 1
-            print(f'{self.name} сражается {days} дней,  осталось{enemies} воинов.\n')
-        print(f'{self.name} одержал победу спустя {days} дней!')
-first_knight = Knight('Sir Lancelot', 10)
-second_knight = Knight('Sir Galahad', 20)
+        while self.enemies_left > 0:
+            sleep(1)
+            self.days += 1
+            self.enemies_left -= self.power
 
-first_knight.start()
-second_knight.start()
-first_knight.join()
-second_knight.join()
+            if self.enemies_left < 0:
+                self.enemies_left = 0
+            print(f'{self.name} сражается {self.days} дней,  осталось{self.enemies_left} воинов.\n')
+        print(f'{self.name} одержал победу спустя {self.days} дней!')
+f1_knight = Knight('Sir Lancelot', 10)
+f2_knight = Knight('Sir Galahad', 20)
+
+f1_knight.start()
+f2_knight.start()
+f1_knight.join()
+f2_knight.join()
 
 print('Все битвы закончились!')

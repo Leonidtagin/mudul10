@@ -1,28 +1,29 @@
-import multiprocessing
-from datetime import datetime
+import time
+from multiprocessing import Pool
 
-def read_info(name):
-    all_date = []
-    with open(name, 'r') as file1:
+def read_info(file_name):
+    all_data = []
+    with open(file_name, 'r') as file:
         while True:
-            line = file1.readline().strip()
-            all_date.append(line)
+            line = file.readline()
             if not line:
                 break
+            all_data.append(line.strip())
+    return all_data
 
-files = ['file1.txt', 'file2.txt', 'file3.txt', 'file4.txt']
-start1 = datetime.now()
-for f in files:
-    print(f)
-    read_info(f)
 
-end1 = datetime.now()
-time_of_line_function = end1 - start1
-print(f'Время работы линейного вызова: {time_of_line_function}')
-if __name__ == '__name__':
-    start2 = datetime.now()
-    with multiprocessing.Pool(processes=4) as pool:
-        pool.map(read_info, files)
-    end2 = datetime.now()
-    time_of_line_multiprocessing = end2 - start2
-    print(f'Время работы мультипроцесса: {time_of_line_multiprocessing}')
+file_names = ['file1.txt', 'file2.txt', 'file3.txt', 'file4.txt']
+
+
+start_time = time.time()
+for file_name in file_names:
+    data = read_info(file_name)
+end_time = time.time()
+
+print(f'Время работы линейного вызова: {end_time - start_time} секунд')
+
+start_time = time.time()
+with Pool() as pool:
+    results = pool.map(read_info, file_names)
+end_time = time.time()
+print(f'Время выполнения параллельного подхода: {end_time - start_time} секунд')
